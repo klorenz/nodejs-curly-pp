@@ -1,0 +1,2 @@
+{{greeted: world}}
+Hello {{:greeted}}

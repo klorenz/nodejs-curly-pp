@@ -1,0 +1,26 @@
+#!/bin/sh
+':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
+
+var argv, mimeType, imagedata;
+
+argv = process.argv.slice(2)
+
+if (argv.length) {
+  mimeType = argv[0]
+} else {
+  mimeType = 'application/octetstream'
+}
+
+imagedata = ''
+process.stdin.setEncoding('binary')
+
+process.stdin.on('readable', function() {
+  var chunk = process.stdin.read()
+  if (chunk !== null) {
+    imagedata += chunk.toString()
+  }
+});
+
+process.stdin.on('end', function() {
+  process.stdout.write('<img src="data:'+ mimeType + ';base64,'+btoa(imagedata)+'">')
+});

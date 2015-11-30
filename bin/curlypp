@@ -1,0 +1,15 @@
+#!/bin/sh
+':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
+
+var path = require('path');
+var fs   = require('fs');
+var lib  = path.join(path.dirname(fs.realpathSync(__filename)));
+
+var input = ''
+process.stdin.on('data', function(data) {
+  input += data.toString()
+})
+
+process.stdin.on('end', function() {
+  require('../index')(input.split(/\n/), {dirname: process.cwd(), outstream: process.stdout});
+})
